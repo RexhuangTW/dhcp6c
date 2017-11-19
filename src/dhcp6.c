@@ -114,8 +114,8 @@ void main(int argc, char *argv[])
     
     if (sendto(fd, buf, offest, 0, (struct sockaddr *)&addr, sizeof(addr)) < 0) 
 	{
-           	perror("sendto");
-           	exit(1);
+        perror("sendto");
+        exit(1);
     }
 }
 
