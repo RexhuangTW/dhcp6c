@@ -44,7 +44,7 @@ int add_domain_name_packet(uint8_t *dest, uint8_t option, uint8_t len, uint8_t *
 }
 void int2hex(uint8_t *dest, int num)
 {
-	dest[1] = num & 0xFF;			// low byte
+	dest[1] = num & 0xFF;		// low byte
 	dest[0] = (num >> 8) & 0xFF;	// high byte
 }
 
@@ -53,14 +53,14 @@ int main(int argc, char *argv[])
 	struct sockaddr_in6 addr = {0};
 	struct sockaddr_in6 client_addr = {0};
 	struct in_addr ipaddr = {0};
-	struct dhcpv6_IA_ID *ia_id_v;
+	struct dhcpv6_IA_ID ia_id_v;
 	int fd, cnt;
 	uint8_t buf[1024] = {0};
 	uint8_t sub_value[521] = {0};
 	size_t offest=0, sub_offest=0;
 	uint8_t soliocit[3] = {0xAA, 0xAA, 0xAA};
 	uint8_t duid[18] = {0x00, 0x04, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-						0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
+			0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
 	uint8_t req_opt[10] = {0x00, 0x17, 0x00, 0x18, 0x00, 0x17, 0x00, 0x18, 0x00, 0x01};
 	uint8_t elapsed_time[2];
 	uint8_t client_name[8]={'R','e','x','_','t','e','s','t'};
@@ -101,12 +101,12 @@ int main(int argc, char *argv[])
 	
 	/* Client Identifier */
 	offest += add_option( buf + offest, OPTION_CLIENTID, sizeof(duid), duid);
-	
+
 	/* IA_NA */
-	ia_id_v->iaid = 0x79e99408;
-	ia_id_v->t1 = htons(0);
-	ia_id_v->t2 = htons(0);
-	offest += add_option( buf + offest, OPTION_IA_NA, sizeof(struct dhcpv6_IA_ID), (uint8_t *)ia_id_v);
+	ia_id_v.iaid = 0x79e99408;
+	ia_id_v.t1 = htons(0);
+	ia_id_v.t2 = htons(0);
+	offest += add_option( buf + offest, OPTION_IA_NA, sizeof(ia_id_v),(uint8_t *)&ia_id_v);
 	
 	/*Fully Qualified Domain Name*/
 	sub_offest += add_domain_name_packet(sub_value, 0x00,sizeof(client_name), client_name);
