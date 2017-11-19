@@ -1,12 +1,12 @@
 #
-# Makefile for the hello example package
+# Makefile for the dhcp6c
 #
 
 CFLAGS+=$(TARGET_CFLAGS)
 
 all: dhcp6c
 
-dhcp6c: dhcp6c.o
+dhcp6c: dhcp6.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 %.o: %.c 
 	$(CC) $(CFLAGS) -c $<
